@@ -1,0 +1,38 @@
+<div class="container wish">
+  <header class="wish__head">
+    <div>
+      <span class="eyebrow">Saved for later</span>
+      <h1>Your <span class="gradient-text">wishlist</span></h1>
+      <p class="wish__note">
+        Saved to your account, so it follows you to any device.
+      </p>
+    </div>
+
+    @if (wishlist.count() > 0) {
+      <button type="button" class="btn btn-primary btn-sm" (click)="addAllToBag()">
+        Add all to bag
+      </button>
+    }
+  </header>
+
+  @if (loading()) {
+    <div class="grid-auto">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="skeleton" style="height: 340px"></div>
+      }
+    </div>
+  } @else if (wishlist.count() === 0) {
+    <div class="empty-state">
+      <span class="emoji">♡</span>
+      <h3>Nothing saved yet</h3>
+      <p>Tap the heart on any product and it will wait for you here.</p>
+      <a class="btn btn-primary" routerLink="/products">Find something you love</a>
+    </div>
+  } @else {
+    <div class="grid-auto">
+      @for (product of wishlist.items(); track product._id; let i = $index) {
+        <app-product-card [product]="product" [index]="i" (quickView)="openProduct($event)" />
+      }
+    </div>
+  }
+</div>

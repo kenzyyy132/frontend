@@ -1,0 +1,239 @@
+.chero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.2rem, 6vw, 3.6rem);
+  background: var(--grad-hero), var(--cream);
+  text-align: center;
+
+  &__blob {
+    width: 400px;
+    height: 400px;
+    background: var(--pink-300);
+    top: -180px;
+    inset-inline-start: -100px;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+    animation: fade-up var(--t-slow) var(--ease-out) both;
+
+    p {
+      max-width: 50ch;
+      color: var(--ink-700);
+    }
+  }
+}
+
+.contact {
+  padding-block: 2.4rem 4rem;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+}
+
+/* ---- Channels ------------------------------------------------------------- */
+
+.channels {
+  display: grid;
+  gap: 12px;
+}
+
+.channel {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh-xs);
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--grad-brand);
+    color: var(--white);
+    font-size: 1.05rem;
+  }
+
+  strong {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--orchid-500);
+  }
+
+  p {
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+}
+
+/* ---- Form ----------------------------------------------------------------- */
+
+.cform {
+  padding: clamp(1.6rem, 4vw, 2.4rem);
+  border-radius: var(--r-xl);
+  background: var(--white);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh-sm);
+
+  h2 {
+    font-size: 1.5rem;
+  }
+
+  &__sub {
+    margin-block: 6px 22px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  &__state {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+
+    strong {
+      color: var(--danger);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+
+      &.ok {
+        color: var(--success);
+      }
+    }
+  }
+
+  /* ---- Success state ----------------------------------------------------- */
+  &__done {
+    display: grid;
+    place-items: center;
+    gap: 12px;
+    padding-block: 2.4rem;
+    text-align: center;
+    animation: pop-in var(--t-base) var(--ease-spring) both;
+
+    p {
+      color: var(--text-muted);
+    }
+  }
+
+  &__tick {
+    display: grid;
+    place-items: center;
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    background: var(--grad-brand);
+    color: var(--white);
+    font-size: 1.8rem;
+    animation: pulse-ring 2s ease-out infinite;
+  }
+}
+
+/* ---- Checkbox ------------------------------------------------------------- */
+
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-bottom: 20px;
+  font-size: 0.86rem;
+  color: var(--ink-700);
+  cursor: pointer;
+  user-select: none;
+
+  input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &__box {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 21px;
+    height: 21px;
+    margin-top: 1px;
+    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    background: var(--white);
+    transition:
+      background-color var(--t-fast) var(--ease-out),
+      border-color var(--t-fast) var(--ease-out);
+
+    &::after {
+      content: '✓';
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 900;
+      opacity: 0;
+      transform: scale(0.5);
+      transition:
+        opacity var(--t-fast) var(--ease-out),
+        transform var(--t-fast) var(--ease-spring);
+    }
+  }
+
+  input:checked + &__box {
+    background: var(--grad-brand);
+    border-color: transparent;
+
+    &::after {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  input:focus-visible + &__box {
+    outline: 3px solid var(--pink-400);
+    outline-offset: 2px;
+  }
+}
+
+/* ---- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .contact__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .channels {
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  }
+}
+
+@media (max-width: 560px) {
+  .cform__row {
+    grid-template-columns: 1fr;
+  }
+}

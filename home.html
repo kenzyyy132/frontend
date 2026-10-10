@@ -1,0 +1,203 @@
+<!-- ============================ HERO ============================ -->
+<section class="hero">
+  <!-- Decorative layer: blurred blobs and rotating rings -->
+  <div class="hero__decor" aria-hidden="true">
+    <span class="blob hero__blob-1"></span>
+    <span class="blob hero__blob-2"></span>
+    <span class="blob hero__blob-3"></span>
+    <span class="shape-ring hero__ring-1"></span>
+    <span class="shape-ring hero__ring-2"></span>
+    @for (i of [1, 2, 3, 4, 5, 6]; track i) {
+      <span class="sparkle" [style.--i]="i">✦</span>
+    }
+  </div>
+
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <span class="eyebrow anim-fade-up">✦ Clean · Vegan · Dermat tested</span>
+
+      <h1 class="hero__title">
+        Your <span class="gradient-text">Skin</span><br />
+        Your <span class="gradient-text">Glow</span>
+      </h1>
+
+      <p class="hero__lead">
+        Glow-enhancing, skin-loving beauty for every skin tone. Cruelty-free,
+        vegan and dermatologist-approved — because kind formulas work harder.
+      </p>
+
+      <div class="hero__cta">
+        <a class="btn btn-primary" routerLink="/products">Explore the collection</a>
+        <a class="btn btn-ghost" routerLink="/about">Our story</a>
+      </div>
+
+      <dl class="hero__stats">
+        <div><dt>{{ totalProducts() }}</dt><dd>Products</dd></div>
+        <div><dt>{{ categories.length }}</dt><dd>Categories</dd></div>
+        <div><dt>100%</dt><dd>Cruelty-free</dd></div>
+      </dl>
+    </div>
+
+    <!-- 3D bottle, built entirely in CSS -->
+    <div class="hero__visual">
+      <div class="bottle anim-float-3d">
+        <span class="bottle__cap"></span>
+        <span class="bottle__neck"></span>
+        <span class="bottle__body">
+          <span class="bottle__liquid"></span>
+          <span class="bottle__shine"></span>
+          <span class="bottle__label">LUMORA</span>
+        </span>
+      </div>
+
+      <span class="hero__tag hero__tag--1">Natural Ingredients</span>
+      <span class="hero__tag hero__tag--2">Hydrating Serum</span>
+      <span class="hero__glow"></span>
+    </div>
+  </div>
+
+  <!-- Floating product chips pulled from the API -->
+  @if (chips().length > 0) {
+    <div class="container">
+      <div class="chips stagger">
+        @for (p of chips(); track p._id) {
+          <button type="button" class="chip" (click)="openProduct(p)">
+            <span class="chip__dot"></span>
+            <span class="chip__text">
+              <strong>{{ p.name }}</strong>
+              <small>{{ p.brand }}</small>
+            </span>
+            <span class="chip__go">→</span>
+          </button>
+        }
+      </div>
+    </div>
+  }
+</section>
+
+<!-- ======================= PROMISE RIBBON ======================= -->
+<section class="ribbon">
+  <div class="ribbon__track">
+    @for (pass of [1, 2]; track pass) {
+      <div class="ribbon__group" [attr.aria-hidden]="pass === 2 ? 'true' : null">
+        @for (item of promises; track item.title) {
+          <span class="ribbon__item">
+            <span class="ribbon__icon">{{ item.icon }}</span>
+            <span><strong>{{ item.title }}</strong> — {{ item.text }}</span>
+          </span>
+        }
+      </div>
+    }
+  </div>
+</section>
+
+<!-- ========================= CATEGORIES ========================= -->
+<section class="section container">
+  <div class="section-head" appReveal>
+    <div>
+      <span class="eyebrow">Shop by</span>
+      <h2 class="section-title">Find your <span class="gradient-text">ritual</span></h2>
+    </div>
+    <a class="btn btn-ghost btn-sm" routerLink="/products">View all →</a>
+  </div>
+
+  <div class="cats">
+    @for (cat of categories; track cat.slug; let i = $index) {
+      <button type="button" class="cat card-3d" appReveal [delay]="i * 90" (click)="shopCategory(cat.slug)">
+        <span class="cat__icon">{{ cat.icon }}</span>
+        <strong class="cat__label">{{ cat.label }}</strong>
+        <small class="cat__blurb">{{ cat.blurb }}</small>
+        <span class="cat__arrow">→</span>
+      </button>
+    }
+  </div>
+</section>
+
+<!-- ======================== GLOW HEROES ========================= -->
+<section class="section container">
+  <div class="section-head" appReveal>
+    <div>
+      <span class="eyebrow">Just landed</span>
+      <h2 class="section-title">Shop Our <span class="gradient-text">Glow Heroes</span></h2>
+    </div>
+    <a class="btn btn-ghost btn-sm" routerLink="/products">See everything →</a>
+  </div>
+
+  @if (loading()) {
+    <!-- Skeletons keep the layout stable while the request is in flight -->
+    <div class="grid-auto">
+      @for (i of [1, 2, 3, 4]; track i) {
+        <div class="skeleton" style="height: 340px"></div>
+      }
+    </div>
+  } @else if (heroes().length === 0) {
+    <div class="empty-state">
+      <span class="emoji">🧴</span>
+      <h3>No products yet</h3>
+      <p>Run <code>npm run seed</code> in the backend to load the sample catalogue.</p>
+    </div>
+  } @else {
+    <div class="grid-auto">
+      @for (product of heroes(); track product._id; let i = $index) {
+        <app-product-card [product]="product" [index]="i" (quickView)="openProduct($event)" />
+      }
+    </div>
+  }
+</section>
+
+<!-- ========================== OFFER BAND ======================== -->
+<section class="container">
+  <div class="offers">
+    <article class="offer offer--a" appReveal>
+      <div class="offer__text">
+        <span class="offer__pct">50%</span>
+        <strong>OFF</strong>
+        <p>Clean. Vegan. Powerful.</p>
+        <a class="btn btn-primary btn-sm" [routerLink]="['/products']" [queryParams]="{ category: 'skincare' }">
+          Shop skincare
+        </a>
+      </div>
+      <span class="offer__shape" aria-hidden="true"></span>
+    </article>
+
+    <article class="offer offer--b" appReveal [delay]="120">
+      <div class="offer__text">
+        <span class="offer__pct">NEW</span>
+        <strong>IN</strong>
+        <p>Fragrance that lingers.</p>
+        <a class="btn btn-primary btn-sm" [routerLink]="['/products']" [queryParams]="{ category: 'perfume' }">
+          Shop perfume
+        </a>
+      </div>
+      <span class="offer__shape" aria-hidden="true"></span>
+    </article>
+  </div>
+</section>
+
+<!-- ========================== BIG QUOTE ========================= -->
+<section class="section container">
+  <div class="quote" appReveal>
+    <span class="quote__blob blob" aria-hidden="true"></span>
+    <h2>Beauty That <span class="gradient-text">Loves Your</span> Skin Back</h2>
+    <p>We're redefining glow with clean, conscious beauty that never compromises.</p>
+    <a class="btn btn-primary" routerLink="/products">View all products</a>
+  </div>
+</section>
+
+<!-- ========================= GLOW EDIT ========================== -->
+@if (editPicks().length > 0) {
+  <section class="section container">
+    <div class="section-head" appReveal>
+      <div>
+        <span class="eyebrow">Editor's choice</span>
+        <h2 class="section-title">The <span class="gradient-text">Glow Edit</span></h2>
+      </div>
+    </div>
+
+    <div class="grid-auto">
+      @for (product of editPicks(); track product._id; let i = $index) {
+        <app-product-card [product]="product" [index]="i" (quickView)="openProduct($event)" />
+      }
+    </div>
+  </section>
+}

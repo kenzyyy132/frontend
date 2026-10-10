@@ -1,0 +1,19 @@
+.wish {
+  padding-block: 2.4rem 4rem;
+
+  &__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+    animation: fade-up var(--t-base) var(--ease-out) both;
+  }
+
+  &__note {
+    margin-top: 6px;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+}

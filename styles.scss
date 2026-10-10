@@ -1,0 +1,11 @@
+/* =============================================================================
+   Global stylesheet entry point.
+
+   Load order matters: tokens first (everything else consumes them), then the
+   reset, then the keyframes, then the shared component classes which use both.
+   ========================================================================== */
+
+@use './styles/tokens';
+@use './styles/base';
+@use './styles/animations';
+@use './styles/components';

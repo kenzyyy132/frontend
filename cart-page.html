@@ -1,0 +1,142 @@
+<div class="container cart">
+  <header class="cart__head">
+    <div>
+      <span class="eyebrow">Your selection</span>
+      <h1>Shopping <span class="gradient-text">bag</span></h1>
+    </div>
+
+    @if (!cart.isEmpty()) {
+      <button type="button" class="btn btn-ghost btn-sm" (click)="clear()">Empty bag</button>
+    }
+  </header>
+
+  @if (cart.isEmpty()) {
+    <div class="empty-state">
+      <span class="emoji">🛍</span>
+      <h3>Your bag is empty</h3>
+      <p>Once you add something you love, it will show up here.</p>
+      <a class="btn btn-primary" routerLink="/products">Start shopping</a>
+    </div>
+  } @else {
+    <div class="cart__grid">
+      <!-- ================= ITEMS ================= -->
+      <section class="lines">
+        <!-- Free delivery progress -->
+        <div class="ship">
+          @if (remaining() > 0) {
+            <p>
+              You are
+              <strong>{{ remaining() | currency: 'EGP' : 'symbol-narrow' : '1.0-0' }}</strong>
+              away from free delivery
+            </p>
+          } @else {
+            <p><strong>Free delivery unlocked ✦</strong></p>
+          }
+          <div class="ship__bar"><span [style.width.%]="progress()"></span></div>
+        </div>
+
+        @for (item of cart.items(); track item.product._id) {
+          <article class="line">
+            <a class="line__media" [routerLink]="['/products', item.product._id]">
+              @if (imageUrl(item)) {
+                <img [src]="imageUrl(item)" [alt]="item.product.name" loading="lazy" />
+              } @else {
+                <span class="line__ph" aria-hidden="true">🧴</span>
+              }
+            </a>
+
+            <div class="line__info">
+              <p class="line__brand">{{ item.product.brand }}</p>
+              <a class="line__name" [routerLink]="['/products', item.product._id]">
+                {{ item.product.name }}
+              </a>
+              <p class="line__unit">
+                {{ item.product.price | currency: 'EGP' : 'symbol-narrow' : '1.0-0' }} each
+              </p>
+            </div>
+
+            <div class="line__qty">
+              <button
+                type="button"
+                [disabled]="item.quantity <= 1"
+                (click)="setQuantity(item.product._id, item.quantity - 1)"
+                aria-label="Decrease quantity"
+              >
+                −
+              </button>
+              <span>{{ item.quantity }}</span>
+              <button
+                type="button"
+                [disabled]="item.quantity >= item.product.stock"
+                (click)="setQuantity(item.product._id, item.quantity + 1)"
+                aria-label="Increase quantity"
+              >
+                +
+              </button>
+            </div>
+
+            <div class="line__total">
+              {{ item.product.price * item.quantity | currency: 'EGP' : 'symbol-narrow' : '1.0-0' }}
+            </div>
+
+            <button
+              type="button"
+              class="line__remove"
+              [attr.aria-label]="'Remove ' + item.product.name"
+              (click)="remove(item)"
+            >
+              ✕
+            </button>
+          </article>
+        }
+      </section>
+
+      <!-- ================= SUMMARY ================= -->
+      <aside class="summary">
+        <h2>Order summary</h2>
+
+        <dl>
+          <div>
+            <dt>Subtotal</dt>
+            <dd>{{ cart.subtotal() | currency: 'EGP' : 'symbol-narrow' : '1.0-0' }}</dd>
+          </div>
+          <div>
+            <dt>Delivery</dt>
+            <dd>
+              @if (cart.shipping() === 0) {
+                <span class="summary__free">Free</span>
+              } @else {
+                {{ cart.shipping() | currency: 'EGP' : 'symbol-narrow' : '1.0-0' }}
+              }
+            </dd>
+          </div>
+          <div class="summary__total">
+            <dt>Total</dt>
+            <dd>{{ cart.total() | currency: 'EGP' : 'symbol-narrow' : '1.0-0' }}</dd>
+          </div>
+        </dl>
+
+        <button
+          type="button"
+          class="btn btn-primary btn-block"
+          [disabled]="placing()"
+          (click)="checkout()"
+        >
+          @if (placing()) {
+            <span class="spinner" aria-hidden="true"></span> Placing order…
+          } @else {
+            Checkout
+          }
+        </button>
+
+        <a class="btn btn-ghost btn-block" routerLink="/products">Continue shopping</a>
+
+        <ul class="summary__perks">
+          <li>✦ Free returns within 14 days</li>
+          <li>✦ Secure payment</li>
+          <li>✦ Authentic products only</li>
+        </ul>
+      </aside>
+    </div>
+  }
+</div>

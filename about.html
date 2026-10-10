@@ -1,0 +1,120 @@
+<!-- ============================ HERO ============================ -->
+<section class="ahero">
+  <div class="ahero__decor" aria-hidden="true">
+    <span class="blob ahero__blob-1"></span>
+    <span class="blob ahero__blob-2"></span>
+    <span class="shape-ring ahero__ring"></span>
+  </div>
+
+  <div class="container ahero__inner">
+    <span class="eyebrow">Our story</span>
+    <h1>Beauty that belongs<br /><span class="gradient-text">to Egypt</span></h1>
+    <p>
+      We built LUMORA because the shelves were full of formulas made for other
+      climates and other skin. Everything we carry is made here, tested here,
+      and priced for here.
+    </p>
+
+    <div class="ahero__cta">
+      <a class="btn btn-primary" routerLink="/products">Shop the collection</a>
+      <a class="btn btn-ghost" routerLink="/contact">Talk to us</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ VALUES ========================== -->
+<section class="section container">
+  <div class="section-head" appReveal>
+    <div>
+      <span class="eyebrow">What we stand for</span>
+      <h2 class="section-title">Four things we <span class="gradient-text">never bend on</span></h2>
+    </div>
+  </div>
+
+  <div class="values">
+    @for (value of values; track value.title; let i = $index) {
+      <article class="value card-3d" appReveal [delay]="i * 90">
+        <span class="value__icon">{{ value.icon }}</span>
+        <h3>{{ value.title }}</h3>
+        <p>{{ value.text }}</p>
+      </article>
+    }
+  </div>
+</section>
+
+<!-- =========================== TIMELINE ========================= -->
+<section class="section container">
+  <div class="section-head" appReveal>
+    <div>
+      <span class="eyebrow">How we got here</span>
+      <h2 class="section-title">From a kitchen table to <span class="gradient-text">every governorate</span></h2>
+    </div>
+  </div>
+
+  <div class="timeline" appReveal>
+    <div class="timeline__rail" aria-hidden="true"></div>
+
+    @for (stop of milestones; track stop.year) {
+      <button
+        type="button"
+        class="stop"
+        [class.is-active]="activeYear() === stop.year"
+        [attr.aria-pressed]="activeYear() === stop.year"
+        (click)="setYear(stop.year)"
+      >
+        <span class="stop__dot"></span>
+        <span class="stop__year">{{ stop.year }}</span>
+
+        <span class="stop__body">
+          <strong>{{ stop.title }}</strong>
+          <!-- Only the selected milestone expands -->
+          @if (activeYear() === stop.year) {
+            <span class="stop__text">{{ stop.text }}</span>
+          }
+        </span>
+      </button>
+    }
+  </div>
+</section>
+
+<!-- ============================ MAKERS ========================== -->
+<section class="section container">
+  <div class="section-head" appReveal>
+    <div>
+      <span class="eyebrow">Who we work with</span>
+      <h2 class="section-title">Egyptian <span class="gradient-text">makers</span></h2>
+    </div>
+    <a class="btn btn-ghost btn-sm" routerLink="/products">See their products →</a>
+  </div>
+
+  <div class="makers">
+    @for (maker of makers; track maker.name; let i = $index) {
+      <article class="maker" appReveal [delay]="i * 70">
+        <span class="maker__mark">{{ maker.name.charAt(0) }}</span>
+        <div>
+          <strong>{{ maker.name }}</strong>
+          <small>{{ maker.since }}</small>
+          <span class="badge badge-orchid">{{ maker.note }}</span>
+        </div>
+      </article>
+    }
+  </div>
+</section>
+
+<!-- ========================== CATEGORIES ======================== -->
+<section class="section container">
+  <div class="story-cta" appReveal>
+    <span class="blob story-cta__blob" aria-hidden="true"></span>
+
+    <h2>Start where your <span class="gradient-text">skin</span> is</h2>
+    <p>Pick a category and we will take it from there.</p>
+
+    <div class="story-cta__row">
+      @for (cat of ['skincare', 'makeup', 'perfume', 'sets']; track cat) {
+        <button type="button" class="btn btn-ghost btn-sm" (click)="shopCategory(cat)">
+          {{ cat }}
+        </button>
+      }
+    </div>
+  </div>
+</section>

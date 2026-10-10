@@ -1,0 +1,271 @@
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translate3d(-40px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translate3d(40px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---- Ambient / decorative ------------------------------------------------ */
+
+/* Gentle vertical drift for the hero product and the floating blobs. */
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -18px, 0);
+  }
+}
+
+/* A slow 3D wobble — the hero bottle reads as a solid object, not a flat png. */
+@keyframes float-3d {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: translate3d(0, -14px, 0) rotateX(6deg) rotateY(-8deg);
+  }
+  50% {
+    transform: translate3d(0, -20px, 0) rotateX(0deg) rotateY(-14deg);
+  }
+  75% {
+    transform: translate3d(0, -10px, 0) rotateX(-5deg) rotateY(-6deg);
+  }
+}
+
+/* Organic blob morph for the background shapes. */
+@keyframes blob-morph {
+  0%,
+  100% {
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  }
+  33% {
+    border-radius: 63% 37% 41% 59% / 58% 63% 37% 42%;
+  }
+  66% {
+    border-radius: 37% 63% 58% 42% / 63% 37% 63% 37%;
+  }
+}
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Moving gradient used on headings and the promo strip. */
+@keyframes gradient-pan {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Light sweeping across a card or a skeleton block. */
+@keyframes sheen {
+  from {
+    transform: translateX(-120%);
+  }
+  to {
+    transform: translateX(220%);
+  }
+}
+
+/* Infinite logo / benefits ribbon. */
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgba(242, 96, 159, 0.5);
+  }
+  70% {
+    box-shadow: 0 0 0 18px rgba(242, 96, 159, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(242, 96, 159, 0);
+  }
+}
+
+@keyframes bounce-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+/* ---- Utility classes ----------------------------------------------------- */
+
+.anim-fade-up {
+  animation: fade-up var(--t-slow) var(--ease-out) both;
+}
+
+.anim-fade-in {
+  animation: fade-in var(--t-base) var(--ease-out) both;
+}
+
+.anim-pop {
+  animation: pop-in var(--t-base) var(--ease-spring) both;
+}
+
+.anim-float {
+  animation: float-y 6s ease-in-out infinite;
+}
+
+.anim-float-3d {
+  animation: float-3d 9s ease-in-out infinite;
+}
+
+/* Staggered reveals: put .stagger on a parent and children come in one by one.
+   Cheaper and simpler than wiring a delay onto every child by hand. */
+.stagger > * {
+  animation: fade-up var(--t-slow) var(--ease-out) both;
+}
+
+@for $i from 1 through 12 {
+  .stagger > *:nth-child(#{$i}) {
+    animation-delay: #{$i * 70}ms;
+  }
+}
+
+/* ---- Route transitions --------------------------------------------------- */
+
+/* Drives the browser's View Transitions API, enabled in app.config.ts.
+   The outgoing page fades out while the incoming one rises into place. */
+@keyframes vt-out {
+  to {
+    opacity: 0;
+    transform: translate3d(0, -10px, 0);
+  }
+}
+
+@keyframes vt-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+}
+
+::view-transition-old(root) {
+  animation: vt-out 200ms var(--ease-out) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 320ms var(--ease-out) both;
+}
+
+/* ---- Theme swap ---------------------------------------------------------- */
+
+/* Surfaces and borders ease between palettes instead of snapping. Scoped to
+   the elements that actually carry a background, so hover transitions declared
+   on components are left alone. */
+.card,
+.nav,
+.aside,
+.abar,
+.panel,
+.pcard,
+.summary,
+.line,
+.kpi,
+.value,
+.maker,
+.stop,
+.channel,
+.cform,
+.table-wrap,
+.table th,
+.table td,
+.input,
+.select,
+.textarea,
+.fchip,
+.btn-ghost,
+.btn-soft,
+.icon-btn,
+.toast,
+.menu,
+.drop {
+  transition-property: background-color, border-color, color, box-shadow;
+  transition-duration: var(--t-base);
+  transition-timing-function: var(--ease-out);
+}
+
+/* ---- Scroll reveal ------------------------------------------------------- */
+
+/* Paired with the `appReveal` directive: the element sits hidden until it
+   scrolls into view, then plays once. */
+.reveal {
+  opacity: 0;
+  transform: translate3d(0, 34px, 0);
+  transition:
+    opacity var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}

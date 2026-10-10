@@ -1,0 +1,156 @@
+<div class="container profile">
+  @if (auth.user(); as user) {
+    <!-- ================= HEADER ================= -->
+    <header class="phead">
+      <span class="blob phead__blob" aria-hidden="true"></span>
+
+      <div class="phead__inner">
+        <label class="phead__avatar" [attr.title]="'Change your photo'">
+          @if (avatarUrl()) {
+            <img [src]="avatarUrl()" [alt]="user.name" />
+          } @else {
+            <span>{{ auth.initials() }}</span>
+          }
+          <span class="phead__camera" aria-hidden="true">⌾</span>
+          <input type="file" accept="image/png,image/jpeg,image/webp" (change)="onAvatarPicked($event)" />
+          <span class="sr-only">Upload a profile photo</span>
+        </label>
+
+        <div class="phead__id">
+          <h1>{{ user.name }}</h1>
+          <p>{{ user.email }}</p>
+          <div class="phead__tags">
+            <span class="badge badge-orchid">{{ user.role }}</span>
+            @if (user.role === 'admin') {
+              <a class="badge badge-pink" routerLink="/admin">Open dashboard →</a>
+            }
+          </div>
+        </div>
+
+        <dl class="phead__stats">
+          <div><dt>{{ cart.count() }}</dt><dd>In bag</dd></div>
+          <div><dt>{{ wishlist.count() }}</dt><dd>Saved</dd></div>
+        </dl>
+      </div>
+    </header>
+
+    <!-- ================= FORM ================= -->
+    <div class="pgrid">
+      <section class="pcard">
+        <h2>Account details</h2>
+        <p class="pcard__sub">Update your information. Leave the password blank to keep it.</p>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+          <div class="pcard__row">
+            <div class="field">
+              <label for="p-name">Full name</label>
+              <input
+                id="p-name"
+                class="input"
+                type="text"
+                formControlName="name"
+                [class.is-invalid]="name.invalid && name.touched"
+              />
+              @if (name.touched && name.invalid) {
+                <small class="error-text">Name must be at least 2 characters.</small>
+              }
+            </div>
+
+            <div class="field">
+              <label for="p-email">Email</label>
+              <input
+                id="p-email"
+                class="input"
+                type="email"
+                formControlName="email"
+                [class.is-invalid]="email.invalid && email.touched"
+              />
+              @if (email.touched && email.invalid) {
+                <small class="error-text">Please enter a valid email address.</small>
+              }
+            </div>
+          </div>
+
+          <div class="pcard__row">
+            <div class="field">
+              <label for="p-phone">Phone</label>
+              <input id="p-phone" class="input" type="tel" formControlName="phone" />
+            </div>
+
+            <div class="field">
+              <label for="p-password">New password <span class="hint-text">(optional)</span></label>
+              <input
+                id="p-password"
+                class="input"
+                type="password"
+                autocomplete="new-password"
+                placeholder="••••••••"
+                formControlName="password"
+                [class.is-invalid]="password.invalid && password.touched"
+              />
+              @if (password.touched && password.invalid) {
+                <small class="error-text">Password must be at least 6 characters.</small>
+              }
+            </div>
+          </div>
+
+          <!-- Nested form group -->
+          <fieldset class="pcard__fieldset" formGroupName="address">
+            <legend>Delivery address</legend>
+
+            <div class="pcard__row">
+              <div class="field">
+                <label for="a-street">Street</label>
+                <input id="a-street" class="input" type="text" formControlName="street" />
+              </div>
+              <div class="field">
+                <label for="a-city">City</label>
+                <input id="a-city" class="input" type="text" formControlName="city" />
+              </div>
+            </div>
+
+            <div class="pcard__row">
+              <div class="field">
+                <label for="a-country">Country</label>
+                <input id="a-country" class="input" type="text" formControlName="country" />
+              </div>
+              <div class="field">
+                <label for="a-postal">Postal code</label>
+                <input id="a-postal" class="input" type="text" formControlName="postalCode" />
+              </div>
+            </div>
+          </fieldset>
+
+          <div class="pcard__actions">
+            <button type="submit" class="btn btn-primary" [disabled]="saving()">
+              @if (saving()) {
+                <span class="spinner" aria-hidden="true"></span> Saving…
+              } @else {
+                Save changes
+              }
+            </button>
+
+            <button type="button" class="btn btn-ghost" (click)="signOut()">Sign out</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ================= SHORTCUTS ================= -->
+      <aside class="pcard pcard--links">
+        <h2>Shortcuts</h2>
+
+        <a routerLink="/wishlist"><span>♡</span> My wishlist <em>{{ wishlist.count() }}</em></a>
+        <a routerLink="/cart"><span>🛍</span> My bag <em>{{ cart.count() }}</em></a>
+        <a routerLink="/products"><span>✦</span> Keep shopping</a>
+
+        @if (user.role === 'admin') {
+          <a routerLink="/admin"><span>⚙</span> Admin dashboard</a>
+        }
+
+        <p class="pcard__member">
+          Member since {{ user.createdAt | date: 'MMMM y' }}
+        </p>
+      </aside>
+    </div>
+  }
+</div>

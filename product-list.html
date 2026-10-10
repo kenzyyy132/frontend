@@ -1,0 +1,147 @@
+<section class="shop-hero">
+  <span class="blob shop-hero__blob" aria-hidden="true"></span>
+
+  <div class="container shop-hero__inner">
+    <span class="eyebrow">The collection</span>
+    <h1>Shop <span class="gradient-text">every glow</span></h1>
+    <p>Clean formulas, honest ingredients, shade-matched for every skin tone.</p>
+  </div>
+</section>
+
+<div class="container shop">
+  <!-- ===================== TOOLBAR ===================== -->
+  <div class="toolbar">
+    <div class="toolbar__search">
+      <span aria-hidden="true">⌕</span>
+      <input
+        class="input"
+        type="search"
+        placeholder="Search by name, brand or ingredient…"
+        aria-label="Search products"
+        [value]="search()"
+        (change)="onSearch($event)"
+      />
+    </div>
+
+    <div class="toolbar__right">
+      <span class="toolbar__count">{{ resultLabel() }}</span>
+
+      <select class="select" aria-label="Sort products" [value]="sort()" (change)="selectSort($event)">
+        @for (option of sorts; track option) {
+          <option [value]="option">{{ sortLabels[option] }}</option>
+        }
+      </select>
+
+      <button type="button" class="btn btn-ghost btn-sm toolbar__toggle" (click)="toggleFilters()">
+        Filters {{ filtersOpen() ? '▲' : '▼' }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ===================== FILTERS ===================== -->
+  <div class="filters" [class.is-open]="filtersOpen()">
+    <div class="chipset" role="group" aria-label="Filter by category">
+      <button
+        type="button"
+        class="fchip"
+        [class.is-active]="category() === ''"
+        (click)="selectCategory('')"
+      >
+        All
+      </button>
+
+      @for (cat of categories; track cat) {
+        <button
+          type="button"
+          class="fchip"
+          [class.is-active]="category() === cat"
+          (click)="selectCategory(cat)"
+        >
+          {{ categoryLabels[cat] }}
+        </button>
+      }
+    </div>
+
+    <div class="filters__right">
+      <select class="select" aria-label="Filter by brand" [value]="brand()" (change)="selectBrand($event)">
+        <option value="">All brands</option>
+        @for (b of brands(); track b) {
+          <option [value]="b">{{ b }}</option>
+        }
+      </select>
+
+      <label class="switch">
+        <input type="checkbox" [checked]="inStockOnly()" (change)="toggleInStock($event)" />
+        <span class="switch__track"><span class="switch__dot"></span></span>
+        <span>In stock only</span>
+      </label>
+
+      @if (hasFilters()) {
+        <button type="button" class="btn btn-soft btn-sm" (click)="clearFilters()">
+          Clear all ✕
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- ===================== RESULTS ===================== -->
+  @if (loading()) {
+    <div class="grid-auto">
+      @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track i) {
+        <div class="skeleton" style="height: 340px"></div>
+      }
+    </div>
+  } @else if (items().length === 0) {
+    <div class="empty-state">
+      <span class="emoji">🔍</span>
+      <h3>Nothing matched that</h3>
+      <p>Try a different search, or clear the filters to see everything.</p>
+      @if (hasFilters()) {
+        <button type="button" class="btn btn-primary" (click)="clearFilters()">
+          Clear filters
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="grid-auto">
+      @for (product of items(); track product._id; let i = $index) {
+        <app-product-card [product]="product" [index]="i" (quickView)="openProduct($event)" />
+      }
+    </div>
+
+    <!-- ===================== PAGER ===================== -->
+    @if (pagination().totalPages > 1) {
+      <nav class="pager" aria-label="Pagination" appReveal>
+        <button
+          type="button"
+          class="pager__btn"
+          [disabled]="pagination().page === 1"
+          (click)="goToPage(pagination().page - 1)"
+        >
+          ← Prev
+        </button>
+
+        @for (n of pageNumbers(); track n) {
+          <button
+            type="button"
+            class="pager__num"
+            [class.is-active]="n === pagination().page"
+            [attr.aria-current]="n === pagination().page ? 'page' : null"
+            (click)="goToPage(n)"
+          >
+            {{ n }}
+          </button>
+        }
+
+        <button
+          type="button"
+          class="pager__btn"
+          [disabled]="pagination().page >= pagination().totalPages"
+          (click)="goToPage(pagination().page + 1)"
+        >
+          Next →
+        </button>
+      </nav>
+    }
+  }
+</div>

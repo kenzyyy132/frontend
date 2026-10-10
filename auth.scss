@@ -1,0 +1,239 @@
+/* Shared by the login and register pages. */
+
+.auth {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+  min-height: calc(100dvh - var(--nav-h));
+  padding-block: clamp(2rem, 6vw, 4rem);
+  background: var(--grad-hero), var(--cream);
+
+  &__blob-1 {
+    width: 440px;
+    height: 440px;
+    background: var(--pink-300);
+    top: -150px;
+    inset-inline-start: -140px;
+  }
+
+  &__blob-2 {
+    width: 360px;
+    height: 360px;
+    background: var(--orchid-300);
+    bottom: -150px;
+    inset-inline-end: -90px;
+    animation-delay: -5s;
+  }
+
+  &__ring {
+    width: 420px;
+    height: 420px;
+    top: 12%;
+    inset-inline-end: 6%;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: center;
+  }
+
+  /* ---- Brand panel ------------------------------------------------------- */
+  &__aside {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    animation: slide-in-left var(--t-slow) var(--ease-out) both;
+
+    p {
+      max-width: 42ch;
+      color: var(--ink-700);
+    }
+  }
+
+  &__perks {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 11px;
+    margin-top: 6px;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: var(--ink-700);
+    }
+
+    span {
+      display: grid;
+      place-items: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--grad-brand);
+      color: var(--white);
+      font-size: 0.72rem;
+      flex-shrink: 0;
+    }
+  }
+
+  /* ---- Card -------------------------------------------------------------- */
+  &__card {
+    padding: clamp(1.8rem, 4vw, 2.6rem);
+    border-radius: var(--r-xl);
+    background: var(--glass-solid);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--sh-lg);
+    animation: slide-in-right var(--t-slow) var(--ease-out) both;
+    animation-delay: 100ms;
+
+    h2 {
+      font-size: 1.7rem;
+    }
+  }
+
+  &__sub {
+    margin-block: 6px 22px;
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+
+  &__switch {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 0.88rem;
+    color: var(--text-muted);
+
+    a {
+      font-weight: 700;
+      color: var(--orchid-600);
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  /* ---- Demo credential helper -------------------------------------------- */
+  &__demo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 18px;
+    padding: 12px 14px;
+    border-radius: var(--r-md);
+    background: var(--pink-50);
+    border: 1px dashed var(--orchid-300);
+
+    > span {
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orchid-600);
+    }
+
+    > div {
+      display: flex;
+      gap: 7px;
+    }
+  }
+}
+
+/* ---- Password field ------------------------------------------------------- */
+
+.pwd {
+  position: relative;
+
+  .input {
+    padding-inline-end: 46px;
+  }
+
+  &__eye {
+    position: absolute;
+    inset-inline-end: 6px;
+    top: 50%;
+    translate: 0 -50%;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    font-size: 0.95rem;
+    transition: background-color var(--t-fast) var(--ease-out);
+
+    &:hover {
+      background: var(--pink-100);
+    }
+  }
+}
+
+/* ---- Password strength meter ---------------------------------------------- */
+
+.meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+
+  &__bars {
+    display: flex;
+    gap: 4px;
+    flex: 1;
+
+    i {
+      flex: 1;
+      height: 4px;
+      border-radius: 2px;
+      background: var(--ink-100);
+      transition: background-color var(--t-base) var(--ease-out);
+
+      &.is-on {
+        background: var(--grad-brand);
+      }
+    }
+  }
+
+  small {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  &[data-score='0'] .meter__bars i.is-on,
+  &[data-score='1'] .meter__bars i.is-on {
+    background: var(--danger);
+  }
+
+  &[data-score='2'] .meter__bars i.is-on {
+    background: var(--warning);
+  }
+}
+
+/* ---- Responsive ----------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .auth__inner {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .auth__aside {
+    text-align: center;
+    align-items: center;
+  }
+
+  .auth__perks {
+    text-align: start;
+  }
+}

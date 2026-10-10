@@ -1,0 +1,140 @@
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  /* Anchors and "back to top" land below the sticky header, not under it. */
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--page-bg);
+  color: var(--text);
+  /* The one place the light/dark swap is animated. Individual components
+     inherit their colours from tokens, so this single transition covers the
+     whole page instead of 30 separate ones. */
+  transition:
+    background-color var(--t-base) var(--ease-out),
+    color var(--t-base) var(--ease-out);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  line-height: 1.12;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+}
+
+h2 {
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+}
+
+h3 {
+  font-size: clamp(1.2rem, 2.4vw, 1.6rem);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+ul[role='list'] {
+  list-style: none;
+  padding: 0;
+}
+
+/* Visible, on-brand focus ring for keyboard users; suppressed for mouse
+   clicks via :focus-visible so it never looks like a styling accident. */
+:focus-visible {
+  outline: 3px solid var(--pink-400);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--pink-200);
+  color: var(--ink-900);
+}
+
+/* Scrollbar, tinted to match the brand. */
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pink-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--orchid-300);
+  border-radius: var(--r-pill);
+  border: 3px solid var(--pink-50);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--orchid-400);
+}
+
+/* Screen-reader-only text. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

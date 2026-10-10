@@ -1,0 +1,299 @@
+/* ============================== HERO ====================================== */
+
+.ahero {
+  position: relative;
+  overflow: hidden;
+  padding-block: clamp(2.6rem, 7vw, 4.6rem);
+  background: var(--grad-hero), var(--page-bg);
+  text-align: center;
+
+  &__decor {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &__blob-1 {
+    width: 420px;
+    height: 420px;
+    background: var(--pink-300);
+    top: -170px;
+    inset-inline-start: -120px;
+  }
+
+  &__blob-2 {
+    width: 340px;
+    height: 340px;
+    background: var(--orchid-300);
+    bottom: -180px;
+    inset-inline-end: -80px;
+    animation-delay: -5s;
+  }
+
+  &__ring {
+    width: 460px;
+    height: 460px;
+    top: -80px;
+    inset-inline-end: 4%;
+  }
+
+  &__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    gap: 16px;
+    animation: fade-up var(--t-slow) var(--ease-out) both;
+
+    p {
+      max-width: 54ch;
+      color: var(--text-muted);
+    }
+  }
+
+  &__cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 6px;
+  }
+}
+
+/* ============================= VALUES ===================================== */
+
+.values {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+.value {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 26px 22px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh-xs);
+
+  &__icon {
+    font-size: 2rem;
+    transition: transform var(--t-base) var(--ease-spring);
+  }
+
+  &:hover &__icon {
+    transform: scale(1.2) rotate(-8deg);
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    color: var(--orchid-600);
+  }
+
+  p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+  }
+}
+
+/* ============================ TIMELINE ==================================== */
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: 10px;
+  padding-inline-start: 34px;
+}
+
+.timeline__rail {
+  position: absolute;
+  inset-inline-start: 11px;
+  top: 12px;
+  bottom: 12px;
+  width: 2px;
+  border-radius: 2px;
+  background: linear-gradient(180deg, var(--pink-300), var(--orchid-400));
+}
+
+.stop {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  text-align: start;
+  transition:
+    transform var(--t-base) var(--ease-out),
+    box-shadow var(--t-base) var(--ease-out),
+    border-color var(--t-base) var(--ease-out);
+
+  &:hover {
+    transform: translateX(4px);
+    box-shadow: var(--sh-sm);
+  }
+
+  &.is-active {
+    border-color: var(--orchid-300);
+    box-shadow: var(--sh-md);
+  }
+
+  /* The dot sits on the rail, outside the card. */
+  &__dot {
+    position: absolute;
+    inset-inline-start: -30px;
+    top: 22px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 3px solid var(--orchid-400);
+    transition:
+      background-color var(--t-base) var(--ease-out),
+      transform var(--t-base) var(--ease-spring);
+  }
+
+  &.is-active &__dot {
+    background: var(--grad-brand);
+    border-color: transparent;
+    transform: scale(1.35);
+  }
+
+  &__year {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--orchid-500);
+    min-width: 58px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    strong {
+      font-size: 1rem;
+    }
+  }
+
+  &__text {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    animation: fade-up var(--t-base) var(--ease-out) both;
+  }
+}
+
+/* ============================= MAKERS ===================================== */
+
+.makers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.maker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: var(--sh-xs);
+  transition:
+    transform var(--t-base) var(--ease-out),
+    box-shadow var(--t-base) var(--ease-out);
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--sh-md);
+  }
+
+  &__mark {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--grad-brand);
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 700;
+  }
+
+  strong {
+    display: block;
+    font-size: 0.98rem;
+  }
+
+  small {
+    display: block;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+    margin-bottom: 5px;
+  }
+}
+
+/* ============================== CTA ======================================= */
+
+.story-cta {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  gap: 12px;
+  padding: clamp(2.4rem, 6vw, 4rem) 24px;
+  border-radius: var(--r-xl);
+  background: var(--grad-soft);
+  text-align: center;
+
+  &__blob {
+    width: 330px;
+    height: 330px;
+    background: var(--pink-300);
+    top: -140px;
+    inset-inline-end: -70px;
+    opacity: 0.4;
+  }
+
+  h2,
+  p,
+  &__row {
+    position: relative;
+    z-index: 1;
+  }
+
+  p {
+    color: var(--ink-700);
+  }
+
+  &__row {
+    display: flex;
+    gap: 9px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 8px;
+
+    .btn {
+      text-transform: capitalize;
+    }
+  }
+}
+
+/* ============================ RESPONSIVE ================================== */
+
+@media (max-width: 560px) {
+  .stop {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+}

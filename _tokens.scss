@@ -1,0 +1,215 @@
+/* =============================================================================
+   Design tokens — the single source of truth for the whole look.
+
+   Every colour, radius, shadow and easing used anywhere in the app comes from
+   here. Restyling the brand is editing this file, not hunting through 30
+   component stylesheets.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand: soft pink through to deep orchid --------------------------- */
+  --pink-50: #fff5f8;
+  --pink-100: #ffe9f1;
+  --pink-200: #ffd3e3;
+  --pink-300: #ffb3d0;
+  --pink-400: #ff8ab8;
+  --pink-500: #f2609f;
+  --pink-600: #d94185;
+
+  --orchid-100: #f3e8fb;
+  --orchid-200: #e7d3f5;
+  --orchid-300: #d3b0ec;
+  --orchid-400: #b784da;
+  --orchid-500: #9a5fc4;
+  --orchid-600: #7d43a8;
+  --orchid-700: #5f3080;
+
+  /* ---- Neutrals ---------------------------------------------------------- */
+  --ink-900: #1f1520;
+  --ink-700: #4a3c4d;
+  --ink-500: #7a6b7e;
+  --ink-300: #b4a8b7;
+  --ink-100: #ece5ee;
+
+  --cream: #fdf7fa;
+  --white: #ffffff;
+
+  /* ---- Semantic ---------------------------------------------------------- */
+  --primary: var(--orchid-500);
+  --primary-strong: var(--orchid-600);
+  --accent: var(--pink-500);
+  --surface: var(--white);
+  --surface-muted: var(--pink-50);
+  --page-bg: var(--cream);
+  --text: var(--ink-900);
+  --text-muted: var(--ink-500);
+  --border: rgba(154, 95, 196, 0.16);
+
+  --success: #2e9e6b;
+  --danger: #d94141;
+  --warning: #d98a1f;
+
+  /* ---- Gradients --------------------------------------------------------- */
+  --grad-brand: linear-gradient(135deg, var(--orchid-500), var(--pink-500));
+  --grad-soft: linear-gradient(135deg, var(--orchid-100), var(--pink-100));
+  --grad-hero: radial-gradient(
+      1200px 600px at 15% -10%,
+      var(--pink-100) 0%,
+      transparent 60%
+    ),
+    radial-gradient(900px 500px at 90% 0%, var(--orchid-100) 0%, transparent 55%);
+  --grad-sheen: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.65) 50%,
+    transparent 80%
+  );
+
+  /* Frosted surfaces (navbar, hero chips, floating tags). Tokenised because
+     a hardcoded white stays white in dark mode and swallows its own text. */
+  --glass: rgba(255, 255, 255, 0.82);
+  --glass-solid: rgba(255, 255, 255, 0.94);
+  --glass-border: rgba(255, 255, 255, 0.6);
+
+  /* Backgrounds that must stay dark in BOTH themes because they carry white
+     text: the admin sidebar and the coloured offer panel. */
+  --sidebar-bg: linear-gradient(180deg, #5f3080, #7d43a8 60%, #9a5fc4);
+  --offer-bg: linear-gradient(120deg, #b784da, #7d43a8);
+
+  /* ---- Radii ------------------------------------------------------------- */
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 24px;
+  --r-xl: 32px;
+  --r-pill: 999px;
+
+  /* ---- Shadows: tinted with the brand hue, never flat grey ---------------- */
+  --sh-xs: 0 1px 2px rgba(95, 48, 128, 0.06);
+  --sh-sm: 0 4px 12px rgba(95, 48, 128, 0.08);
+  --sh-md: 0 12px 28px rgba(95, 48, 128, 0.12);
+  --sh-lg: 0 24px 60px rgba(95, 48, 128, 0.18);
+  --sh-glow: 0 10px 40px rgba(242, 96, 159, 0.35);
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --t-fast: 160ms;
+  --t-base: 280ms;
+  --t-slow: 560ms;
+
+  /* ---- Typography -------------------------------------------------------- */
+  /* Display serif for headings, geometric sans for everything else. Both have
+     a real fallback stack so the page never waits on the network to be legible. */
+  --font-display: 'Fraunces', 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --container: 1200px;
+  --nav-h: 72px;
+}
+
+/* =============================================================================
+   Dark palette.
+
+   Only the semantic tokens are redefined — the brand ramp above stays put, so
+   there is exactly one place that decides what "surface" or "text" means in
+   each theme.
+
+   Two selectors, deliberately:
+     - the media query handles visitors who never touch the toggle
+     - [data-theme="dark"] wins when they do, in both directions
+   ========================================================================== */
+
+@mixin dark-tokens {
+  --primary: var(--orchid-300);
+  --primary-strong: var(--orchid-200);
+  --accent: var(--pink-300);
+
+  --page-bg: #17101a;
+  --surface: #211829;
+  --surface-muted: #2b2034;
+
+  --text: #f6eef8;
+  --text-muted: #b6a6bd;
+  --border: rgba(211, 176, 236, 0.18);
+
+  /* Ink scale flips so components using it stay legible. */
+  --ink-900: #f6eef8;
+  --ink-700: #d9cade;
+  --ink-500: #b6a6bd;
+  --ink-300: #7b6b82;
+  --ink-100: #33263c;
+
+  --white: #211829;
+  --cream: #17101a;
+
+  /* Tints are dimmed so badges and soft buttons do not glow on a dark page. */
+  --pink-50: #2b1f2c;
+  --pink-100: #3a2839;
+  --orchid-100: #2e2338;
+  --orchid-200: #3d2f4a;
+
+  /* The brand ramp is used for TEXT in most components (prices, headings,
+     links, badges), so on a dark ground it has to move to the light end.
+     Anything that uses these as a BACKGROUND under white text reads from
+     --grad-brand / --sidebar-bg / --offer-bg below instead, which stay dark. */
+  --orchid-300: #c9a6e6;
+  --orchid-400: #c49ae6;
+  --orchid-500: #cba8ea;
+  --orchid-600: #ddc2f0;
+  --orchid-700: #ece0f8;
+  --pink-400: #ff9ec4;
+  --pink-500: #f57cb0;
+  --pink-600: #ffabce;
+
+  /* Kept saturated so white button text stays readable. */
+  --grad-brand: linear-gradient(135deg, #8f57bd, #d9508f);
+
+  /* Frosted surfaces become dark glass rather than white. */
+  --glass: rgba(33, 24, 41, 0.78);
+  --glass-solid: rgba(33, 24, 41, 0.94);
+  --glass-border: rgba(211, 176, 236, 0.16);
+
+  --grad-soft: linear-gradient(135deg, #2a2036, #33243a);
+  --grad-hero: radial-gradient(1200px 600px at 15% -10%, #2c1f33 0%, transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, #241c33 0%, transparent 55%);
+  --grad-sheen: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.16) 50%,
+    transparent 80%
+  );
+
+  --sh-xs: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --sh-sm: 0 4px 12px rgba(0, 0, 0, 0.45);
+  --sh-md: 0 12px 28px rgba(0, 0, 0, 0.5);
+  --sh-lg: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --sh-glow: 0 10px 40px rgba(183, 132, 218, 0.35);
+
+  color-scheme: dark;
+}
+
+/* Visitors on "system" who prefer dark, unless they explicitly chose light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-tokens;
+  }
+}
+
+/* An explicit choice always wins. */
+:root[data-theme='dark'] {
+  @include dark-tokens;
+}
+
+/* Respect the OS "reduce motion" setting: decorative movement is switched off
+   everywhere at once rather than per component. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
